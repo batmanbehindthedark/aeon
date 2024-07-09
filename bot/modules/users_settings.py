@@ -151,6 +151,21 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
         buttons.ibutton("Back", f"userset {user_id} back", "footer")
         buttons.ibutton("Close", f"userset {user_id} close", "footer")
         button = buttons.build_menu(2)
+        elif key == "ddl_servers":
+        ddl_serv, serv_list = 0, []
+        if (ddl_dict := user_dict.get('ddl_servers', False)):
+            for serv, (enabled, _) in ddl_dict.items():
+                if enabled:
+                    serv_list.append(serv)
+                    ddl_serv += 1
+        text = f"㊂ <b><u>{fname_dict[key]} Settings :</u></b>\n\n" \
+               f"➲ <b>Enabled DDL Server(s) :</b> <i>{ddl_serv}</i>\n\n" \
+               f"➲ <b>Description :</b> <i>{desp_dict[key][0]}</i>"
+        for btn in ['gofile', 'streamtape']:
+            buttons.ibutton(f"{'✅️' if btn in serv_list else ''} {fname_dict[btn]}", f"userset {user_id} {btn}")
+        buttons.ibutton("Back", f"userset {user_id} back mirror", "footer")
+        buttons.ibutton("Close", f"userset {user_id} close", "footer")
+        button = buttons.build_menu(2)
     elif edit_type:
         text = f"<b><u>{fname_dict[key]} Settings :</u></b>\n\n"
         if key == 'rcc':
